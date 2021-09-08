@@ -1,9 +1,63 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Web-API</title>
-    </head>
-    <body>
-        
-    </body>
+
+<head>
+    <title>Web-API</title>
+    <style>
+        #control {
+            width: 64px;
+            height: 64px;
+            border: 1px solid red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="control"></div>
+    <div id="time"></div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const player = document.createElement('audio');
+        const timeView = document.getElementById('time');
+        const controlButton = document.getElementById('control');
+
+        loadTrack(player, "/Freddie-Mercury-In-My-Defence.mp3");
+
+        const PLAYER_STATE = {
+            PAUSE: 'pause',
+            PLAY: 'play',
+        };
+
+        let timer;
+        let playerState = PLAYER_STATE.PAUSE;
+
+        controlButton.addEventListener('click', () => {
+            if (playerState === PLAYER_STATE.PAUSE) {
+                playerState = PLAYER_STATE.PLAY;
+                player.play();
+
+                timer = setInterval(() => {
+                    timeView.textContent = formatTime(player.currentTime, player.duration);
+                }, 1000);
+            } else {
+                playerState = PLAYER_STATE.PAUSE;
+                player.pause();
+
+                clearInterval(timer);
+            }
+        });
+    });
+
+    function loadTrack(playerElement, trackUrl) {
+        playerElement.src = trackUrl;
+    }
+
+    function formatTime(current, duration) {
+        return `${Math.trunc(current)} / ${Math.trunc(duration)}`;
+    }
+</script>
+
 </html>

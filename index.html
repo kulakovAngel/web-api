@@ -16,7 +16,43 @@
 <body>
     <div id="control"></div>
     <div id="time"></div>
+    <canvas id="canvas" width="500" height="500"></canvas>
 </body>
+
+<script>
+    const canvas = document.getElementById('canvas');
+
+    const ctx = canvas.getContext('2d');
+    const canvasSizes = {
+        width: canvas.width,
+        height: canvas.height,
+    };
+
+    ctx.fillStyle = "#00ff00";
+    ctx.fillRect(0, 0, canvasSizes.width, canvasSizes.height);
+
+    let x = 0;
+    let y = 0;
+
+    const timer = setInterval(() => {
+        ctx.fillStyle = "#00ff00";
+        ctx.fillRect(x, y, 150, 150);
+        x += 5;
+        y += 5;
+        ctx.fillStyle = "#0000ff";
+        ctx.fillRect(x, y, 150, 150);
+        if (x >= canvasSizes.width) clearInterval(timer);
+
+
+        ctx.fillStyle = "#ff0000";
+        ctx.beginPath();
+        ctx.arc(250, 250, Math.round(x / 2), 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.closePath();
+    }, 50);
+
+
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
